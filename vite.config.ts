@@ -10,6 +10,6 @@ export default defineConfig({
     // Ensures compatibility with older browsers if needed, but modern defaults are usually fine
     target: 'esnext',
   },
-  // Ensure base is relative for flexible deployment (works well for both CF Pages and GitHub Pages)
-  base: './',
+  // Use absolute path for root domain deployment
+  base: '/',
 });
