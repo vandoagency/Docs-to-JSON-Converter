@@ -1,3 +1,4 @@
+
 export interface ConvertedData {
   id: string;
   creatorId: string; // Unique Browser/Device ID
@@ -16,6 +17,8 @@ export interface GoogleCredentials {
   clientId: string;
   apiKey: string;
 }
+
+export type Language = 'tr' | 'en';
 
 // Global declaration for Google APIs loaded via script tags
 declare global {

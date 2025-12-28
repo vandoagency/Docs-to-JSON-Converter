@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ConvertedData, GoogleCredentials } from '../types';
 import { getDeviceId, generateUniqueId } from '../services/identityService';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface GoogleDocsFetcherProps {
   onFilesAdded: (data: ConvertedData[]) => void;
@@ -12,6 +13,7 @@ const SCOPES = "https://www.googleapis.com/auth/documents.readonly";
 const DISCOVERY_DOCS = ['https://docs.googleapis.com/$discovery/rest?version=v1'];
 
 const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onError }) => {
+  const { t } = useLanguage();
   const [docUrl, setDocUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [creds, setCreds] = useState<GoogleCredentials>({
@@ -57,7 +59,7 @@ const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onE
   };
 
   const initializeGapiClient = async () => {
-    if (!creds.apiKey) throw new Error("API Anahtarı eksik. Lütfen ayarlardan ekleyin.");
+    if (!creds.apiKey) throw new Error(t('errorMissingApi'));
     
     await new Promise<void>((resolve, reject) => {
       window.gapi.load('client', { callback: resolve, onerror: reject });
@@ -72,13 +74,13 @@ const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onE
   const handleAuthAndFetch = async () => {
     const docId = extractDocId(docUrl);
     if (!docId) {
-      onError("Geçerli bir Google Doküman URL'si veya ID'si giriniz.");
+      onError(t('errorInvalidUrl'));
       return;
     }
 
     if (!creds.clientId || !creds.apiKey) {
       setShowSettings(true);
-      onError("Lütfen önce Google Cloud Credentials bilgilerinizi giriniz.");
+      onError(t('errorCredsMissing'));
       return;
     }
 
@@ -101,7 +103,7 @@ const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onE
               await fetchDocContent(docId);
             } else {
               setLoading(false);
-              onError("Yetkilendirme başarısız oldu.");
+              onError(t('errorAuthFail'));
             }
           },
         });
@@ -113,7 +115,7 @@ const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onE
 
     } catch (err: any) {
       console.error(err);
-      onError(`Bağlantı Hatası: ${err.message || err.result?.error?.message}`);
+      onError(`Connection Error: ${err.message || err.result?.error?.message}`);
       setLoading(false);
     }
   };
@@ -136,7 +138,7 @@ const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onE
       }]);
       setDocUrl(''); // Clear input on success
     } catch (err: any) {
-      onError(`Doküman okuma hatası: ${err.result?.error?.message || err.message}`);
+      onError(`Error: ${err.result?.error?.message || err.message}`);
     } finally {
       setLoading(false);
     }
@@ -152,20 +154,20 @@ const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onE
     <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
       <div className="flex justify-between items-center mb-2">
         <h3 className="font-semibold text-gray-800 flex items-center gap-2">
-          <i className="fab fa-google text-blue-500"></i> Google Docs Import
+          <i className="fab fa-google text-blue-500"></i> {t('googleImportTitle')}
         </h3>
         <button 
           onClick={() => setShowSettings(!showSettings)}
           className="text-xs text-gray-500 hover:text-blue-600 flex items-center gap-1 underline"
         >
-          <i className="fas fa-cog"></i> API Ayarları
+          <i className="fas fa-cog"></i> {t('apiSettings')}
         </button>
       </div>
 
       {showSettings && (
         <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 text-sm space-y-3 mb-4 animate-fade-in">
           <div>
-            <label className="block text-gray-700 font-medium mb-1">Client ID</label>
+            <label className="block text-gray-700 font-medium mb-1">{t('labelClientId')}</label>
             <input 
               type="text" 
               value={creds.clientId}
@@ -175,7 +177,7 @@ const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onE
             />
           </div>
           <div>
-            <label className="block text-gray-700 font-medium mb-1">API Key</label>
+            <label className="block text-gray-700 font-medium mb-1">{t('labelApiKey')}</label>
             <input 
               type="text" 
               value={creds.apiKey}
@@ -189,18 +191,18 @@ const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onE
               onClick={() => setShowSettings(false)}
               className="px-3 py-1 text-gray-600 hover:bg-gray-200 rounded"
             >
-              İptal
+              {t('btnCancel')}
             </button>
             <button 
               onClick={saveSettings}
               className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
-              Kaydet
+              {t('btnSave')}
             </button>
           </div>
           <p className="text-xs text-yellow-600 mt-2">
             <i className="fas fa-exclamation-triangle mr-1"></i>
-            Bu bilgileri Google Cloud Console'dan almalısınız. Sadece tarayıcınızın yerel hafızasında (LocalStorage) saklanır.
+            {t('warningCredentials')}
           </p>
         </div>
       )}
@@ -210,7 +212,7 @@ const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onE
           type="text" 
           value={docUrl}
           onChange={(e) => setDocUrl(e.target.value)}
-          placeholder="https://docs.google.com/document/d/..."
+          placeholder={t('placeholderUrl')}
           className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition-shadow"
         />
         <button
@@ -223,21 +225,21 @@ const GoogleDocsFetcher: React.FC<GoogleDocsFetcherProps> = ({ onFilesAdded, onE
             }`}
         >
           {loading ? (
-            <><i className="fas fa-spinner fa-spin"></i> İşleniyor</>
+            <><i className="fas fa-spinner fa-spin"></i> {t('btnProcessing')}</>
           ) : (
-            <><i className="fas fa-file-import"></i> JSON'a Çevir</>
+            <><i className="fas fa-file-import"></i> {t('btnConvert')}</>
           )}
         </button>
       </div>
       
       {(!gapiLoaded || !gisLoaded) && (
         <p className="text-xs text-orange-500 animate-pulse">
-          Google API kütüphaneleri yükleniyor...
+          {t('loadingLibs')}
         </p>
       )}
 
       <div className="text-xs text-gray-500">
-        <p>Google Docs API v1 kullanılarak dökümanın <code>body</code> yapısı JSON formatında çekilir.</p>
+        <p>{t('footerNote')}</p>
       </div>
     </div>
   );

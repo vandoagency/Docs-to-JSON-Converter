@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface CookieConsentProps {
   onOpenPolicy: () => void;
 }
 
 const CookieConsent: React.FC<CookieConsentProps> = ({ onOpenPolicy }) => {
+  const { t } = useLanguage();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -29,10 +31,9 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onOpenPolicy }) => {
             <i className="fas fa-cookie-bite"></i>
           </div>
           <div className="text-sm text-gray-600">
-            <h4 className="font-bold text-gray-900 mb-1">Çerez Kullanımı</h4>
+            <h4 className="font-bold text-gray-900 mb-1">{t('cookieTitle')}</h4>
             <p>
-              Size daha iyi bir deneyim sunmak ve trafiği analiz etmek için çerezleri kullanıyoruz. 
-              Siteyi kullanmaya devam ederek <button onClick={onOpenPolicy} className="text-blue-600 hover:underline font-medium">Çerez Politikamızı</button> kabul etmiş olursunuz.
+              {t('cookieText')}
             </p>
           </div>
         </div>
@@ -41,13 +42,13 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onOpenPolicy }) => {
             onClick={onOpenPolicy}
             className="flex-1 md:flex-none px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors border border-gray-200"
           >
-            Detaylar
+            {t('cookieDetails')}
           </button>
           <button 
             onClick={handleAccept}
             className="flex-1 md:flex-none px-6 py-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-lg shadow-blue-600/20 transition-all"
           >
-            Kabul Et
+            {t('cookieAccept')}
           </button>
         </div>
       </div>

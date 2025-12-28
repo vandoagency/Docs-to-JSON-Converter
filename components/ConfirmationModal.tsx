@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -9,6 +10,7 @@ interface ConfirmationModalProps {
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, onConfirm, title, message }) => {
+  const { t } = useLanguage();
   if (!isOpen) return null;
 
   return (
@@ -25,13 +27,13 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, 
               onClick={onClose}
               className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
             >
-              İptal
+              {t('btnCancel')}
             </button>
             <button 
               onClick={() => { onConfirm(); onClose(); }}
               className="px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20"
             >
-              Evet, Temizle
+              {t('confirmYes')}
             </button>
           </div>
         </div>

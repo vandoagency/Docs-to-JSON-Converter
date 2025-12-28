@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { parseLocalFile } from '../services/localFileService';
 import { getDeviceId, generateUniqueId } from '../services/identityService';
 import { ConvertedData } from '../types';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface FileUploaderProps {
   onFilesAdded: (files: ConvertedData[]) => void;
@@ -9,6 +10,7 @@ interface FileUploaderProps {
 }
 
 const FileUploader: React.FC<FileUploaderProps> = ({ onFilesAdded, onError }) => {
+  const { t, language } = useLanguage();
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,7 +19,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFilesAdded, onError }) =>
     const currentDeviceId = getDeviceId(); // Get stable user ID
     
     if (filesArray.length > 15) {
-      onError("Toplu yükleme sınırı aşıldı. Tek seferde en fazla 15 dosya yükleyebilirsiniz.");
+      onError(t('errorLimit'));
       return;
     }
 
@@ -27,7 +29,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFilesAdded, onError }) =>
     // Process all files in parallel
     const promises = filesArray.map(async (file) => {
       try {
-        const result = await parseLocalFile(file);
+        const result = await parseLocalFile(file, language);
         return {
           id: generateUniqueId(),
           creatorId: currentDeviceId, // Inject User ID
@@ -37,7 +39,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFilesAdded, onError }) =>
           timestamp: new Date().toISOString()
         } as ConvertedData;
       } catch (err: any) {
-        errors.push(`${file.name}: ${err.message || "Hata oluştu"}`);
+        errors.push(`${file.name}: ${err.message || t('errorGeneral')}`);
         return null;
       }
     });
@@ -54,7 +56,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFilesAdded, onError }) =>
         onError(errors.join(' | '));
       }
     } catch (err) {
-      onError("Dosya işleme sırasında genel bir hata oluştu.");
+      onError(t('errorGeneral'));
     } finally {
       setIsLoading(false);
     }
@@ -105,15 +107,15 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFilesAdded, onError }) =>
           id="fileInput" 
           className="hidden" 
           onChange={onInputChange}
-          accept=".csv,.xlsx,.xls,.txt,.doc,.docx,.json" 
+          accept=".csv,.xlsx,.xls,.txt,.doc,.docx,.json,.pdf" 
           multiple
         />
         
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-4">
              <i className="fas fa-circle-notch fa-spin text-4xl text-blue-600 mb-4"></i>
-             <p className="text-gray-600 animate-pulse">Dosyalar analiz ediliyor...</p>
-             <p className="text-xs text-gray-400 mt-2">Bu işlem dosya boyutuna göre biraz zaman alabilir.</p>
+             <p className="text-gray-600 animate-pulse">{t('processing')}</p>
+             <p className="text-xs text-gray-400 mt-2">{t('processingDesc')}</p>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-4">
@@ -122,10 +124,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFilesAdded, onError }) =>
             </div>
             <div>
               <p className="text-lg font-medium text-gray-700">
-                Dosyaları sürükleyin veya <span className="text-blue-600 underline">seçmek için tıklayın</span>
+                {t('dropZoneDefault')} <span className="text-blue-600 underline">{t('dropZoneClick')}</span>
               </p>
               <p className="text-sm text-gray-500 mt-2">
-                Maksimum 15 dosya (XLSX, CSV, DOCX, TXT, JSON)
+                {t('dropZoneLimit')}
               </p>
             </div>
           </div>

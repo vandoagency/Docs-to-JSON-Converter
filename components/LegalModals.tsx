@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 type ModalType = 'privacy' | 'terms' | 'cookies' | null;
 
@@ -8,12 +9,14 @@ interface LegalModalsProps {
 }
 
 const LegalModals: React.FC<LegalModalsProps> = ({ activeModal, onClose }) => {
+  const { language, t } = useLanguage();
+
   if (!activeModal) return null;
 
   const content = {
     privacy: {
-      title: "Gizlilik Politikası",
-      body: (
+      title: t('privacyPolicy'),
+      body: language === 'tr' ? (
         <div className="space-y-4 text-sm text-gray-700">
           <p><strong>Son Güncelleme:</strong> {new Date().toLocaleDateString('tr-TR')}</p>
           <p>Vando Agency ("Biz") olarak gizliliğinize önem veriyoruz. Bu "Docs to JSON" aracı, tamamen istemci taraflı (client-side) çalışan bir web uygulamasıdır.</p>
@@ -26,15 +29,26 @@ const LegalModals: React.FC<LegalModalsProps> = ({ activeModal, onClose }) => {
 
           <h4 className="font-bold text-gray-900">3. Analitikler</h4>
           <p>Hizmet kalitesini artırmak amacıyla, kişisel olarak tanımlanamayan (anonim) kullanım verilerini toplamak için Google Analytics kullanmaktayız. IP adresiniz anonimleştirilerek işlenir.</p>
+        </div>
+      ) : (
+        <div className="space-y-4 text-sm text-gray-700">
+          <p><strong>Last Updated:</strong> {new Date().toLocaleDateString('en-US')}</p>
+          <p>At Vando Agency ("We"), we value your privacy. This "Docs to JSON" tool is a fully client-side web application.</p>
+          
+          <h4 className="font-bold text-gray-900">1. Data Processing and Storage</h4>
+          <p>No files uploaded to our application (via drag-and-drop or file selection) are uploaded to our servers. All conversion processes take place in your browser's memory using JavaScript on your device. Your files do not leave your device.</p>
 
-          <h4 className="font-bold text-gray-900">4. Kullanıcı İzolasyonu</h4>
-          <p>Bu uygulama tarayıcı tabanlıdır. Her kullanıcının oturumu kendi tarayıcısında izole edilmiştir. Başka kullanıcılar verilerinizi göremez.</p>
+          <h4 className="font-bold text-gray-900">2. Google Docs Integration</h4>
+          <p>When fetching data from Google Docs, the process occurs directly between Google APIs and your browser. Access Tokens or API keys are not stored on our servers; they are kept only in your browser's <code>localStorage</code> for ease of use on your next visit.</p>
+
+          <h4 className="font-bold text-gray-900">3. Analytics</h4>
+          <p>To improve service quality, we use Google Analytics to collect non-personally identifiable (anonymous) usage data. Your IP address is processed anonymously.</p>
         </div>
       )
     },
     terms: {
-      title: "Kullanım Şartları",
-      body: (
+      title: t('termsOfUse'),
+      body: language === 'tr' ? (
         <div className="space-y-4 text-sm text-gray-700">
           <p>Lütfen "Docs to JSON" aracını kullanmadan önce bu şartları dikkatlice okuyunuz.</p>
           
@@ -47,23 +61,38 @@ const LegalModals: React.FC<LegalModalsProps> = ({ activeModal, onClose }) => {
           <h4 className="font-bold text-gray-900">3. Fikri Mülkiyet</h4>
           <p>Uygulamanın kaynak kodları ve tasarımı Vando Agency mülkiyetindedir. Ancak, araçla dönüştürdüğünüz verilerin (JSON çıktılarının) tüm hakları size aittir.</p>
         </div>
+      ) : (
+        <div className="space-y-4 text-sm text-gray-700">
+          <p>Please read these terms carefully before using the "Docs to JSON" tool.</p>
+          
+          <h4 className="font-bold text-gray-900">1. Nature of Service</h4>
+          <p>This tool is provided "as-is" for developers and data analysts to convert document formats to JSON. Vando Agency does not guarantee 100% accuracy of the conversion processes.</p>
+
+          <h4 className="font-bold text-gray-900">2. Disclaimer</h4>
+          <p>Vando Agency cannot be held responsible for data loss, incorrect conversions, or commercial damages arising from the use of this tool. It is recommended to backup critical data before processing.</p>
+
+          <h4 className="font-bold text-gray-900">3. Intellectual Property</h4>
+          <p>The source code and design of the application are owned by Vando Agency. However, all rights to the data (JSON outputs) converted with the tool belong to you.</p>
+        </div>
       )
     },
     cookies: {
-      title: "Çerez Politikası",
-      body: (
+      title: t('cookieTitle'),
+      body: language === 'tr' ? (
         <div className="space-y-4 text-sm text-gray-700">
           <p>Deneyiminizi iyileştirmek için çerezler (cookies) ve yerel depolama (local storage) teknolojilerini kullanıyoruz.</p>
-
           <h4 className="font-bold text-gray-900">1. Zorunlu Çerezler / Yerel Depolama</h4>
           <p>Uygulamanın çalışması için gerekli olan verilerdir. Örneğin: Google API anahtarlarınızı tarayıcınızda hatırlamak için kullanılan veriler.</p>
-
           <h4 className="font-bold text-gray-900">2. Analitik Çerezleri</h4>
-          <p>Ziyaretçi sayılarını ve trafik kaynaklarını ölçmemize olanak tanıyan Google Analytics çerezleridir. Bu bilgiler toplu halde tutulur ve anonimdir.</p>
-          
-          <p className="bg-blue-50 p-3 rounded border border-blue-100">
-            Çerez ayarlarını tarayıcınızın ayarlar bölümünden dilediğiniz zaman değiştirebilirsiniz.
-          </p>
+          <p>Ziyaretçi sayılarını ve trafik kaynaklarını ölçmemize olanak tanıyan Google Analytics çerezleridir.</p>
+        </div>
+      ) : (
+        <div className="space-y-4 text-sm text-gray-700">
+          <p>We use cookies and local storage technologies to improve your experience.</p>
+          <h4 className="font-bold text-gray-900">1. Essential Cookies / Local Storage</h4>
+          <p>Data required for the application to function. For example: Data used to remember your Google API keys in your browser.</p>
+          <h4 className="font-bold text-gray-900">2. Analytics Cookies</h4>
+          <p>Google Analytics cookies that allow us to measure visitor numbers and traffic sources.</p>
         </div>
       )
     }
@@ -93,7 +122,7 @@ const LegalModals: React.FC<LegalModalsProps> = ({ activeModal, onClose }) => {
             onClick={onClose}
             className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
           >
-            Anladım
+            {t('modalUnderstand')}
           </button>
         </div>
       </div>

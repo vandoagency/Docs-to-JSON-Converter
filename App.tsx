@@ -8,8 +8,10 @@ import LegalModals from './components/LegalModals';
 import CookieConsent from './components/CookieConsent';
 import ConfirmationModal from './components/ConfirmationModal';
 import { ConvertedData, DocSource } from './types';
+import { useLanguage } from './contexts/LanguageContext';
 
 const App: React.FC = () => {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<DocSource>(DocSource.LOCAL);
   const [files, setFiles] = useState<ConvertedData[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -60,10 +62,10 @@ const App: React.FC = () => {
         {/* Intro Section */}
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-3">
-            Dokümanlarınızı Anında JSON'a Çevirin
+            {t('heroTitle')}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            <span className="text-blue-600 font-semibold">Vando Agency</span> güvencesiyle; Excel, Word, CSV, TXT ve Google Docs dosyalarınızı geliştiriciler için işlenebilir JSON formatına dönüştürün.
+            {t('heroDesc')}
           </p>
         </div>
 
@@ -95,7 +97,7 @@ const App: React.FC = () => {
                     ? 'bg-blue-600 text-white shadow' 
                     : 'text-gray-600 hover:bg-gray-50'}`}
               >
-                <i className="fas fa-laptop-file"></i> Yerel Dosya
+                <i className="fas fa-laptop-file"></i> {t('tabLocal')}
               </button>
               <button
                 onClick={() => setActiveTab(DocSource.GOOGLE)}
@@ -104,7 +106,7 @@ const App: React.FC = () => {
                     ? 'bg-blue-600 text-white shadow' 
                     : 'text-gray-600 hover:bg-gray-50'}`}
               >
-                <i className="fab fa-google"></i> Google Docs
+                <i className="fab fa-google"></i> {t('tabGoogle')}
               </button>
             </div>
 
@@ -127,13 +129,13 @@ const App: React.FC = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
                 <div className="text-blue-500 mb-2"><i className="fas fa-file-excel text-2xl"></i></div>
-                <h4 className="font-bold text-gray-800 text-sm">Spreadsheets</h4>
-                <p className="text-xs text-gray-500 mt-1">XLS, XLSX, CSV desteği ile tablo verilerini array'e çevirin.</p>
+                <h4 className="font-bold text-gray-800 text-sm">{t('cardSpreadsheets')}</h4>
+                <p className="text-xs text-gray-500 mt-1">{t('cardSpreadsheetsDesc')}</p>
               </div>
               <div className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
                 <div className="text-blue-500 mb-2"><i className="fas fa-file-word text-2xl"></i></div>
-                <h4 className="font-bold text-gray-800 text-sm">Documents</h4>
-                <p className="text-xs text-gray-500 mt-1">Doc, Docx ve Google Docs içeriklerini text veya yapısal JSON olarak alın.</p>
+                <h4 className="font-bold text-gray-800 text-sm">{t('cardDocuments')}</h4>
+                <p className="text-xs text-gray-500 mt-1">{t('cardDocumentsDesc')}</p>
               </div>
             </div>
 
@@ -150,10 +152,10 @@ const App: React.FC = () => {
             ) : (
               <div className="h-full bg-white border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center text-gray-400 p-12 min-h-[400px]">
                 <i className="fas fa-code text-6xl mb-4 opacity-20"></i>
-                <p className="font-medium text-lg">Sonuçlar burada görünecek</p>
-                <p className="text-sm opacity-60">Bir dosya yükleyin veya Google Docs URL'si girin.</p>
+                <p className="font-medium text-lg">{t('resultsPlaceholderTitle')}</p>
+                <p className="text-sm opacity-60">{t('resultsPlaceholderDesc')}</p>
                 <p className="text-xs text-blue-500 mt-2 bg-blue-50 px-2 py-1 rounded">
-                  <i className="fas fa-info-circle"></i> Artık çoklu dosya yükleyebilirsiniz
+                  <i className="fas fa-info-circle"></i> {t('resultsMultiUpload')}
                 </p>
               </div>
             )}
@@ -178,8 +180,8 @@ const App: React.FC = () => {
         isOpen={showClearConfirm}
         onClose={() => setShowClearConfirm(false)}
         onConfirm={executeClearAll}
-        title="Tümünü Temizle"
-        message="Listedeki tüm dosyalar kaldırılacak. Bu işlem geri alınamaz. Onaylıyor musunuz?"
+        title={t('confirmTitle')}
+        message={t('confirmMessage')}
       />
     </div>
   );
