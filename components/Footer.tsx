@@ -16,16 +16,16 @@ const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms }) => {
               &copy; {new Date().getFullYear()} <span className="font-bold text-gray-800">Vando Agency</span>. Tüm hakları saklıdır.
             </p>
             <p className="text-xs text-gray-400 mt-1">
-              doctojson.vandoagency.com
+              doctojson.vandoagency.com - Geliştirici Dostu Araçlar
             </p>
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
-            <button onClick={onOpenPrivacy} className="hover:text-blue-600 transition-colors">
+            <button onClick={onOpenPrivacy} className="hover:text-blue-600 transition-colors" title="Gizlilik Politikamızı İnceleyin">
               Gizlilik Politikası
             </button>
             <span className="text-gray-300">|</span>
-            <button onClick={onOpenTerms} className="hover:text-blue-600 transition-colors">
+            <button onClick={onOpenTerms} className="hover:text-blue-600 transition-colors" title="Kullanım Şartlarını Okuyun">
               Kullanım Şartları
             </button>
           </div>
@@ -36,6 +36,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms }) => {
               href="https://vandoagency.com/" 
               target="_blank" 
               rel="noopener noreferrer" 
+              title="Vando Dijital Ajans Resmi Web Sitesi"
               className="font-medium text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1"
             >
               Vando Dijital Ajans <i className="fas fa-external-link-alt text-[10px]"></i>

@@ -6,7 +6,13 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center">
-            <a href="https://vandoagency.com/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 flex items-center gap-3 group">
+            <a 
+              href="https://vandoagency.com/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title="Vando Dijital Ajans Ana Sayfası"
+              className="flex-shrink-0 flex items-center gap-3 group"
+            >
               <img 
                 className="h-10 w-auto transition-transform duration-300 group-hover:scale-105" 
                 src="https://vandoagency.com/wp-content/uploads/2023/01/vando-agency-logo.png" 
@@ -28,6 +34,7 @@ const Header: React.FC = () => {
               href="https://vandoagency.com/" 
               target="_blank" 
               rel="noopener noreferrer"
+              title="Vando Agency Web Sitesini Ziyaret Edin"
               className="text-gray-500 hover:text-blue-600 font-medium text-sm transition-colors"
             >
               Web Sitemiz
@@ -36,8 +43,8 @@ const Header: React.FC = () => {
               href="https://github.com/vandoagency" 
               target="_blank" 
               rel="noopener noreferrer"
+              title="Vando Agency GitHub Profili"
               className="p-2 text-gray-400 hover:text-gray-900 transition-colors"
-              title="GitHub"
             >
               <i className="fab fa-github text-xl"></i>
             </a>
