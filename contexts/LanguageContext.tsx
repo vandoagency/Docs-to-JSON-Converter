@@ -13,12 +13,13 @@ const translations: Translations = {
   // Header & General
   siteTitle: { tr: "Docs to JSON Converter", en: "Docs to JSON Converter" },
   ourWebsite: { tr: "Web Sitemiz", en: "Our Website" },
+  contactBtn: { tr: "İletişim", en: "Contact Us" },
   
   // App Main
   heroTitle: { tr: "Dokümanlarınızı Anında JSON'a Çevirin", en: "Convert Documents to JSON Instantly" },
   heroDesc: { 
-    tr: "Vando Agency güvencesiyle; Excel, Word, CSV, TXT ve Google Docs dosyalarınızı geliştiriciler için işlenebilir JSON formatına dönüştürün.", 
-    en: "Powered by Vando Agency; convert Excel, Word, CSV, TXT, and Google Docs files into developer-friendly JSON format." 
+    tr: "Vando Agency güvencesiyle; Excel, Word, CSV, TXT, PDF ve Google Docs dosyalarınızı geliştiriciler için işlenebilir JSON formatına dönüştürün.", 
+    en: "Powered by Vando Agency; convert Excel, Word, CSV, TXT, PDF, and Google Docs files into developer-friendly JSON format." 
   },
   tabLocal: { tr: "Yerel Dosya", en: "Local File" },
   tabGoogle: { tr: "Google Docs", en: "Google Docs" },
@@ -75,6 +76,19 @@ const translations: Translations = {
   privacyPolicy: { tr: "Gizlilik Politikası", en: "Privacy Policy" },
   termsOfUse: { tr: "Kullanım Şartları", en: "Terms of Use" },
   developer: { tr: "Geliştirici:", en: "Developer:" },
+
+  // Contact Form
+  contactTitle: { tr: "Bize Ulaşın", en: "Contact Us" },
+  lblFullName: { tr: "Ad Soyad", en: "Full Name" },
+  lblEmail: { tr: "E-posta", en: "Email" },
+  lblPhone: { tr: "Telefon (İsteğe bağlı)", en: "Phone (Optional)" },
+  lblSubject: { tr: "Konu", en: "Subject" },
+  lblMessage: { tr: "Mesaj", en: "Message" },
+  btnSend: { tr: "Gönder", en: "Send Message" },
+  btnSending: { tr: "Gönderiliyor...", en: "Sending..." },
+  msgSentSuccess: { tr: "Mesajınız başarıyla gönderildi!", en: "Your message has been sent successfully!" },
+  msgSentError: { tr: "Mesaj gönderilemedi. Lütfen daha sonra tekrar deneyin.", en: "Failed to send message. Please try again later." },
+  errRequired: { tr: "Bu alan zorunludur.", en: "This field is required." },
 
   // Legal Modals & Cookie
   cookieText: { tr: "Size daha iyi bir deneyim sunmak ve trafiği analiz etmek için çerezleri kullanıyoruz. Siteyi kullanmaya devam ederek Çerez Politikamızı kabul etmiş olursunuz.", en: "We use cookies to ensure you get the best experience and to analyze traffic. By continuing to use our site, you accept our Cookie Policy." },

@@ -16,7 +16,8 @@
     "vite": "^7.3.0",
     "@vitejs/plugin-react": "^5.1.2",
     "jszip": "^3.10.1",
-    "pdfjs-dist": "3.11.174"
+    "pdfjs-dist": "3.11.174",
+    "react-google-recaptcha": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
